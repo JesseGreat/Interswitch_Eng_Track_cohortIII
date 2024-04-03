@@ -9,7 +9,7 @@ namespace BlacklistApp.API.Controllers
     [ApiController]
     public class AuthenticationController : BaseController
     {
-        private const int role = 3;
+
         private readonly ILogger<UserController> _logger;
         private readonly IAuthenticationService _authenticationService;
         public AuthenticationController(ILogger<UserController> logger, IAuthenticationService authenticationService)
@@ -22,7 +22,6 @@ namespace BlacklistApp.API.Controllers
         [Route("authenticate-user")]
         public async Task<IActionResult> CreateNewUserAsync(AuthenticateRequest authenticateRequest)
         {
-            role = authenticateRequest.
             var response = await _authenticationService.AuthenticateAsync(authenticateRequest);
             return SendResponse(response);
         }
