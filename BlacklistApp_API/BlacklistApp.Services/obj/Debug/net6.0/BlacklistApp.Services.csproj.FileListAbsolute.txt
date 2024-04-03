@@ -1,0 +1,16 @@
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Services\bin\Debug\net6.0\Database\BlacklistApp.db
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Services\bin\Debug\net6.0\BlacklistApp.Services.deps.json
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Services\bin\Debug\net6.0\BlacklistApp.Services.dll
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Services\bin\Debug\net6.0\BlacklistApp.Services.pdb
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Services\bin\Debug\net6.0\BlacklistApp.Entities.dll
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Services\bin\Debug\net6.0\BlacklistApp.Entities.pdb
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Services\obj\Debug\net6.0\BlacklistApp.Services.csproj.AssemblyReference.cache
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Services\obj\Debug\net6.0\BlacklistApp.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Services\obj\Debug\net6.0\BlacklistApp.Services.AssemblyInfoInputs.cache
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Services\obj\Debug\net6.0\BlacklistApp.Services.AssemblyInfo.cs
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Services\obj\Debug\net6.0\BlacklistApp.Services.csproj.CoreCompileInputs.cache
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Services\obj\Debug\net6.0\BlacklistApp.Services.csproj.CopyComplete
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Services\obj\Debug\net6.0\BlacklistApp.Services.dll
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Services\obj\Debug\net6.0\refint\BlacklistApp.Services.dll
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Services\obj\Debug\net6.0\BlacklistApp.Services.pdb
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Services\obj\Debug\net6.0\ref\BlacklistApp.Services.dll
