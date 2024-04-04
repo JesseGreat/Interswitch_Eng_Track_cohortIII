@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "amrFZ1O708+p27gG5/v7bdE102w9RHNs1fSUnW5eqS+NSg+pRr+wydqwUlexJkI06yh1pAzqVh+Zv83JVzuWQw==",
+  "dgSpecHash": "/Rr0etY6iZgNTqjS9DiTjn4AbGTooormlrDeDX18MOB7S3MJUFXcQ9IWayZ9fuCuoIjsGrAi78R7eaz6zK6r1w==",
   "success": true,
   "projectFilePath": "C:\\Users\\DELL\\source\\repos\\Interswitch_Eng_Track_cohortIII\\BlacklistApp_API\\BlacklistApp.Services\\BlacklistApp.Services.csproj",
   "expectedPackageFiles": [
@@ -48,9 +48,12 @@
     "C:\\Users\\DELL\\.nuget\\packages\\microsoft.net.http.headers\\2.2.0\\microsoft.net.http.headers.2.2.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\microsoft.netcore.platforms\\1.0.1\\microsoft.netcore.platforms.1.0.1.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\microsoft.netcore.targets\\1.0.1\\microsoft.netcore.targets.1.0.1.nupkg.sha512",
+    "C:\\Users\\DELL\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\newtonsoft.json\\11.0.2\\newtonsoft.json.11.0.2.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\runtime.native.system\\4.0.0\\runtime.native.system.4.0.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\sqlite\\3.13.0\\sqlite.3.13.0.nupkg.sha512",
+    "C:\\Users\\DELL\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
+    "C:\\Users\\DELL\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\system.appcontext\\4.1.0\\system.appcontext.4.1.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\system.buffers\\4.5.0\\system.buffers.4.5.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\system.collections\\4.0.11\\system.collections.4.0.11.nupkg.sha512",

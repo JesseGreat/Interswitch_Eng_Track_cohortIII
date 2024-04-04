@@ -1436,6 +1436,7 @@
           "Microsoft.AspNetCore.Http.Abstractions": "2.2.0",
           "Microsoft.AspNetCore.Mvc.Abstractions": "2.2.0",
           "Microsoft.AspNetCore.Mvc.Formatters.Json": "2.2.0",
+          "Swashbuckle.AspNetCore.SwaggerGen": "6.5.0",
           "System.IdentityModel.Tokens.Jwt": "7.5.0"
         },
         "compile": {

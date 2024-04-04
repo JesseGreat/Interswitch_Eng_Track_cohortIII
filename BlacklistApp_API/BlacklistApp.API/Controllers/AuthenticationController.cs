@@ -1,10 +1,12 @@
 ﻿using BlacklistApp.Services.Interfaces;
 using BlacklistApp.Services.Models;
 using BlacklistApp.Services.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlacklistApp.API.Controllers
 {
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthenticationController : BaseController
