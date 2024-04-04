@@ -10,12 +10,12 @@ namespace BlacklistApp.Services.Interfaces
 {
     public interface IUserService
     {
-        Task<Result> CreateUserAsync(CreateUserRequest user);
-        Task<Result> DeleteUserDetailsAsync(UpdateUserRequest user);
+        Task<Result> CreateNewUserAsync(CreateUserRequest user);
+        Task<Result> DeleteUserAsync(UpdateUserRequest user);
         Result<List<object>> GetAllUserRoles();
         Task<Result<List<UserDetails>>> GetAllUsersAsync();
-        Task<User> GetByIdAsync(string id);
-        Task<Result<UserDetails>> GetUserIdAsync(string id);
+        Task<User> GetUserByIdAsync(string id);
+        Task<Result<UserDetails>> GetUserDetailsByIdAsync(string id);
         Task<Result> UpdateUserDetailsAsync(UpdateUserRequest user);
         Task<Result<object>> ValidateUserAsync(ValidateUserRequest user);
     }

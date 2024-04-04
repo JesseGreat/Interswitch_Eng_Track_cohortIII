@@ -52,7 +52,7 @@ namespace BlacklistApp.Services.Helpers
 
                 var jwtToken = (JwtSecurityToken)validateToken;
                 var userId = jwtToken.Claims.FirstOrDefault(_ => _.Type == "Id").Value;
-                context.Items["User"] = userService.GetByIdAsync(userId);
+                context.Items["User"] = userService.GetUserByIdAsync(userId);
 
             }
             catch 

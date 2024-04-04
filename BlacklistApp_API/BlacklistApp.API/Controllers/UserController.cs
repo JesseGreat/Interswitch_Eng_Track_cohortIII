@@ -23,7 +23,7 @@ namespace BlacklistApp.API.Controllers
         [Route("create-new-user")]
         public async Task<IActionResult> CreateNewUserAsync(CreateUserRequest createUserRequest)
         {
-            var response = await _userService.CreateUserAsync(createUserRequest);
+            var response = await _userService.CreateNewUserAsync(createUserRequest);
             return SendResponse(response);
         }
 
@@ -39,7 +39,7 @@ namespace BlacklistApp.API.Controllers
         [Route("delete-user")]
         public async Task<IActionResult> DeleteUserAsync(UpdateUserRequest userRequest)
         {
-            var response = await _userService.DeleteUserDetailsAsync(userRequest);
+            var response = await _userService.DeleteUserAsync(userRequest);
             return SendResponse(response);
         }
 
@@ -71,7 +71,7 @@ namespace BlacklistApp.API.Controllers
         [Route("get-user/{id}")]
         public async Task<IActionResult> GetUserAsync(string id)
         {
-            var response = await _userService.GetUserIdAsync(id);
+            var response = await _userService.GetUserDetailsByIdAsync(id);
             return SendResponse(response);
         }
     }
