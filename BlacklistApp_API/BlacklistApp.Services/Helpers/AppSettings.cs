@@ -8,7 +8,8 @@ namespace BlacklistApp.Services.Helpers
 {
     public class AppSettings
     {
-        public string Issuer { get; set; }
-        public string Key { get; set; }
+        public string JwtAudience { get; set; }
+        public string JwtIssuer { get; set; }
+        public string JwtKey { get; set; }
     }
 }

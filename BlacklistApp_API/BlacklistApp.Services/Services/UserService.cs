@@ -28,7 +28,7 @@ namespace BlacklistApp.Services.Services
             _repositoryContext = repositoryContext;
         }
 
-        public async Task<Result<List<UserDetails>>> GetAllAsync()
+        public async Task<Result<List<UserDetails>>> GetAllUsersAsync()
         {
             var users = await _repositoryContext.Users.Where(x => x.IsEnabled == true).ToListAsync();
             var response = new List<UserDetails>();
@@ -38,6 +38,18 @@ namespace BlacklistApp.Services.Services
             }
             return new Result<List<UserDetails>>(true, "sucessful", response, StatusCodes.Status200OK);
 
+        }
+
+        public Result<List<object>> GetAllUserRoles()
+        {
+
+            return new Result<List<object>>(true, "Successful", Enum.GetValues(typeof(Models.UserRole))
+               .Cast<Models.UserRole>()
+               .Select(t => new
+               {
+                   Id = ((int)t),
+                   Name = t.ToString()
+               }).ToList<object>(), StatusCodes.Status200OK);
         }
 
         public async Task<Result<UserDetails>> GetUserIdAsync(string id)
@@ -51,7 +63,10 @@ namespace BlacklistApp.Services.Services
 
         public async Task<User> GetByIdAsync(string id)
         {
-            return await _repositoryContext.Users.FirstOrDefaultAsync(x => x.Id == Guid.Parse(id));
+            var valid = Guid.TryParse(id.Trim(), out Guid guid);
+            if (!valid)
+                return null;
+            return await _repositoryContext.Users.FirstOrDefaultAsync(x => x.Id == guid);
 
         }
         public async Task<Result> CreateUserAsync(CreateUserRequest user)
@@ -60,7 +75,7 @@ namespace BlacklistApp.Services.Services
             var creator = await GetByIdAsync(user.CreatedBy.Trim());
             var newUser = await _repositoryContext.Users.FirstOrDefaultAsync(x => x.EmailAdress.ToLower() == user.EmailAddress.Trim().ToLower());
             if (creator == null)
-                return new Result(false, "This user does not exist", StatusCodes.Status401Unauthorized);
+                return new Result(false, "This creating user does not exist", StatusCodes.Status401Unauthorized);
             if (!allowedRoles.Contains(creator.UserRoleId))
                 return new Result(false, "The user does not have permission to perform this action.", StatusCodes.Status401Unauthorized);
             if (newUser != null)
@@ -83,12 +98,12 @@ namespace BlacklistApp.Services.Services
 
         public async Task<Result> UpdateUserDetailsAsync(UpdateUserRequest user)
         {
-            if(string.IsNullOrWhiteSpace(user.Password))
+            if (string.IsNullOrWhiteSpace(user.Password))
                 return new Result(false, "Please provide a password to proceed.", StatusCodes.Status400BadRequest);
 
             var hashedPassword = Encryption.ComputeHash(user.Password.Trim(), string.Empty, null);
 
-            var message = string.Empty;
+            var message = "Password changed successfully";
 
             var userDetails = await GetByIdAsync(user.Id.Trim());
             if (userDetails == null)

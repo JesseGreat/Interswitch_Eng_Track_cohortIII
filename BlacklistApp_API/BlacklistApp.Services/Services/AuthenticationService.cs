@@ -32,28 +32,28 @@ namespace BlacklistApp.Services.Services
         public async Task<Result<AuthenticateResponse>> AuthenticateAsync(AuthenticateRequest model)
         {
             var hashedPassword = Encryption.ComputeHash(model.Password, string.Empty, null);
-            var user = await _repositoryContext.Users.SingleOrDefaultAsync(x => x.EmailAdress == model.Email.Trim());// && x.Password == hashedPassword);
-            if (user == null) return new Result<AuthenticateResponse>(false, "Authentication failed: Email Address not found.", new AuthenticateResponse(), 404);
+            var user = await _repositoryContext.Users.SingleOrDefaultAsync(x => x.EmailAdress == model.Email.Trim() && x.IsEnabled == true);// && x.Password == hashedPassword);
+            if (user == null) return new Result<AuthenticateResponse>(false, "Authentication failed: User not found.", new AuthenticateResponse(), 404);
             var status = Encryption.VerifyHash(model.Password.Trim(), string.Empty, user.Password);
             if (!status) return new Result<AuthenticateResponse>(false, "Authentication failed: Password is incorrect.", new AuthenticateResponse(), 404);
             var token = GenerateToken(user);
-            return new Result<AuthenticateResponse>(true, "Authentication sucessful.", new AuthenticateResponse { Token = token }, 200);
+            UserDetails userDetails = DataMapper.GetUser(user);
+            return new Result<AuthenticateResponse>(true, "Authentication sucessful.", new AuthenticateResponse { Token = token, UserDetails = userDetails }, 200);
 
         }
         private string GenerateToken(User user)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.Key));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JwtKey));
             var credential = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             List<Claim> claims = new List<Claim>(){
                     new Claim("Id",Convert.ToString(user.Id)),
-                    //new Claim(JwtRegisteredClaimNames.Sub, "Test"),
-                    //new Claim(JwtRegisteredClaimNames.Email, "test@gmail.com"),
-                    //new Claim("Role", Convert.ToString(user.Role)),
+                    new Claim("FullName", user.FullName),
+                    new Claim("Email", user.EmailAdress),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim("Role", Convert.ToString(user.UserRoleId))
             };
 
-            var token = new JwtSecurityToken(_appSettings.Issuer, _appSettings.Issuer, claims, expires: DateTime.UtcNow.AddHours(0.5), signingCredentials: credential);
+            var token = new JwtSecurityToken(_appSettings.JwtIssuer, _appSettings.JwtAudience, claims, expires: DateTime.UtcNow.AddMinutes(30), signingCredentials: credential);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

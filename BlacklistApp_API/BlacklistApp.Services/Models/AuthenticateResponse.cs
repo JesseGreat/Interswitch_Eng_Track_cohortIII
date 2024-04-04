@@ -9,5 +9,6 @@ namespace BlacklistApp.Services.Models
     public class AuthenticateResponse
     {
         public string Token { get; set; }
+        public UserDetails UserDetails { get; set; }
     }
 }

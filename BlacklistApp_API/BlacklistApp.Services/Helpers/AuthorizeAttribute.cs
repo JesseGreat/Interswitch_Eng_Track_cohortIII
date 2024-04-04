@@ -3,6 +3,7 @@ using BlacklistApp.Services.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore.Storage;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -21,44 +22,43 @@ namespace BlacklistApp.Services.Helpers
         public Authorization(params int[] _roles)
         {
 
-            this._roles = _roles ?? new int[] { 3 };
+            //this._roles = _roles ?? new int[] { 3 };
         }
-        public void OnAuthorization(AuthorizationFilterContext context)
+        public async void OnAuthorization(AuthorizationFilterContext context)
         {
-            var isRolePermission = false;
+            var isRealUser = false;
             var item = context.HttpContext.Items["User"];
+            var use = await Task.FromResult(item);
+            if (item == null)
+            {
+                context.Result = new JsonResult(new Models.Result(false, "Unauthorized", StatusCodes.Status401Unauthorized));
+                context.HttpContext.Response.ContentType = "application/json";
+                context.HttpContext.Response.StatusCode = (int)StatusCodes.Status401Unauthorized;
+                return;
+                //return context.HttpContext.Response.WriteAsync();
+            }
             var json = JsonConvert.SerializeObject(item);
-            User user = JsonConvert.DeserializeObject<User>(JsonConvert.SerializeObject(JsonConvert.DeserializeObject<AuthorizationFilter>(json).Result));
+            var result = JsonConvert.DeserializeObject<AuthorizationFilter>(json).Result;
+            User user = JsonConvert.DeserializeObject<User>(JsonConvert.SerializeObject(result));
             if (user == null)
             {
                 context.Result = new JsonResult(new Models.Result(false, "Unauthorized", StatusCodes.Status401Unauthorized));
-                //context.Result = new JsonResult(
-                //        new { Message = "Unauthorization" }
-                //    )
-                //{ StatusCode = StatusCodes.Status401Unauthorized };
-
-
+                context.HttpContext.Response.ContentType = "application/json";
+                context.HttpContext.Response.StatusCode = (int)StatusCodes.Status401Unauthorized;
+                return;
             }
-            if (user != null && this._roles.Any())
-
-                foreach (var AuthRole in this._roles)
+            if (user != null)
+                if (user.IsEnabled)
                 {
-
-                    if (user.UserRoleId == AuthRole)
-                    {
-                        isRolePermission = true;
-
-                    }
-
+                    isRealUser = true;
                 }
 
-            if (!isRolePermission)
+            if (!isRealUser)
+            {
                 context.Result = new JsonResult(new Models.Result(false, "Unauthorized", StatusCodes.Status401Unauthorized));
-
-            //context.Result = new JsonResult(
-            //           new { Message = "Unauthorization" }
-            //       )
-            //{ StatusCode = StatusCodes.Status401Unauthorized };
+                context.HttpContext.Response.ContentType = "application/json";
+                context.HttpContext.Response.StatusCode = (int)StatusCodes.Status401Unauthorized;
+            }
         }
     }
 }

@@ -12,6 +12,6 @@ namespace BlacklistApp.Services.Helpers
     {
         public static User GetUser(CreateUserRequest userRequest) => new User { CreatedBy = userRequest.CreatedBy, UserRoleId = userRequest.UserRole, EmailAdress = userRequest.EmailAddress, DateCreated = DateTime.Now };
 
-        public static UserDetails GetUser(User user) => new UserDetails { Id = user.Id.ToString(), CreatedBy = user.CreatedBy, EmailAdress = user.EmailAdress, DateCreated = user.DateCreated, FullName = user.FullName, UserRole = (Models.UserRole)user.UserRoleId };
+        public static UserDetails GetUser(User user) => new UserDetails { Id = user.Id.ToString(), CreatedBy = user.CreatedBy, EmailAdress = user.EmailAdress, DateCreated = user.DateCreated, FullName = user.FullName ?? string.Empty, UserRole = ((Models.UserRole)user.UserRoleId).ToString(), RoleId = user.UserRoleId };
     }
 }

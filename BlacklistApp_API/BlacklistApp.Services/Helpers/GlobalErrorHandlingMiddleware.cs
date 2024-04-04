@@ -1,5 +1,8 @@
 ﻿using BlacklistApp.Services.Models;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +16,34 @@ namespace BlacklistApp.Services.Helpers
     public class GlobalErrorHandlingMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly ILogger<GlobalErrorHandlingMiddleware> _logger;
+
         public GlobalErrorHandlingMiddleware(RequestDelegate next)
         {
             _next = next;
         }
+
+        //public static void ConfigureExceptionHandler(this IApplicationBuilder app, ILogger<GlobalErrorHandlingMiddleware> logger)
+        //{
+        //    app.UseExceptionHandler(appError =>
+        //    {
+        //        appError.Run(async context =>
+        //        {
+        //            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //            context.Response.ContentType = "application/json";
+        //            var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
+        //            if (contextFeature != null)
+        //            {
+        //                logger.LogError($"Something went wrong: {contextFeature.Error}");
+        //                await context.Response.WriteAsync(new ErrorDetails()
+        //                {
+        //                    StatusCode = context.Response.StatusCode,
+        //                    Message = "Internal Server Error."
+        //                }.ToString());
+        //            }
+        //        });
+        //    });
+        //}
         public async Task Invoke(HttpContext context)
         {
             try
@@ -28,7 +55,7 @@ namespace BlacklistApp.Services.Helpers
                 await HandleExceptionAsync(context, ex);
             }
         }
-        private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+        public static Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             HttpStatusCode status;
             var stackTrace = String.Empty;
@@ -40,15 +67,45 @@ namespace BlacklistApp.Services.Helpers
                 status = HttpStatusCode.BadRequest;
                 stackTrace = exception.StackTrace;
             }
+            else if (exception is UnauthorizedAccessException)
+            {
+                message = exception.Message;
+                status = HttpStatusCode.Unauthorized;
+                stackTrace = exception.StackTrace;
+            }
+            else if (exception is SecurityTokenException) // Example, you may have different JWT-related exceptions
+            {
+                message = exception.Message;
+                status = HttpStatusCode.Forbidden;
+                stackTrace = exception.StackTrace;
+            }
+            else if (exception is SecurityTokenExpiredException) // Example, you may have different JWT-related exceptions
+            {
+                message = exception.Message;
+                status = HttpStatusCode.Unauthorized;
+                stackTrace = exception.StackTrace;
+            }
             else if (exceptionType == typeof(NotFoundException))
             {
                 message = exception.Message;
                 status = HttpStatusCode.NotFound;
                 stackTrace = exception.StackTrace;
             }
+            else if (exceptionType == typeof(InvalidCastException))
+            {
+                message = exception.Message;
+                status = HttpStatusCode.InternalServerError;
+                stackTrace = exception.StackTrace;
+            }
             else if (exceptionType == typeof(NotImplementedException))
             {
                 status = HttpStatusCode.NotImplemented;
+                message = exception.Message;
+                stackTrace = exception.StackTrace;
+            }
+            else if (exceptionType == typeof(ArgumentException))
+            {
+                status = HttpStatusCode.BadRequest;
                 message = exception.Message;
                 stackTrace = exception.StackTrace;
             }
@@ -73,11 +130,8 @@ namespace BlacklistApp.Services.Helpers
 
             var exceptionResult = JsonSerializer.Serialize(new
 
-            Result(false, $"Error: {message}; StackTrace: {stackTrace}", (int)status));
-            //{
-            //    error = message,
-            //    stackTrace
-            //});
+            Result<object>(false, $"An error has occured.", new { ErrorMessage = message, StackTrace = stackTrace  }, (int)status));
+
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)status;
             return context.Response.WriteAsync(exceptionResult);

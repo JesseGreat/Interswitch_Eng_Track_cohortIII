@@ -25,7 +25,7 @@ namespace BlacklistApp.Services.Models
 
         public class AuthorizationFilter
         {
-            public Result Result { get; set; }
+            public Result? Result { get; set; }
             public int Id { get; set; }
             public object Exception { get; set; }
             public int Status { get; set; }

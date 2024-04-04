@@ -37,7 +37,7 @@ namespace BlacklistApp.Services.Helpers
             try
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.Key));
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JwtKey));
                 tokenHandler.ValidateToken(token, new TokenValidationParameters
                 {
                     ValidateAudience = true,
@@ -45,8 +45,8 @@ namespace BlacklistApp.Services.Helpers
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = key,
                     ClockSkew = TimeSpan.Zero,
-                    ValidIssuer = _appSettings.Issuer,
-                    ValidAudience = _appSettings.Issuer
+                    ValidIssuer = _appSettings.JwtIssuer,
+                    ValidAudience = _appSettings.JwtAudience
                 }, out SecurityToken validateToken);
 
 
@@ -55,9 +55,9 @@ namespace BlacklistApp.Services.Helpers
                 context.Items["User"] = userService.GetByIdAsync(userId);
 
             }
-            catch (Exception ex)
+            catch 
             {
-
+                throw;
 
             }
         }

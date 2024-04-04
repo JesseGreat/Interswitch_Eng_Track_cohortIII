@@ -55,7 +55,8 @@ namespace BlacklistApp.Services.Models
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime DateCreated { get; set; }
         //public bool IsEnabled { get; set; }
-        public UserRole UserRole { get; set; }
+        public string UserRole { get; set; }
+        public int RoleId { get; set; }
     }
 
     public enum UserRole

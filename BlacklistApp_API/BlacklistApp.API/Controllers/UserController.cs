@@ -1,10 +1,12 @@
-﻿using BlacklistApp.Services.Interfaces;
+﻿using BlacklistApp.Services.Helpers;
+using BlacklistApp.Services.Interfaces;
 using BlacklistApp.Services.Models;
 using BlacklistApp.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlacklistApp.API.Controllers
 {
+    [Authorization]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : BaseController
@@ -53,7 +55,15 @@ namespace BlacklistApp.API.Controllers
         [Route("get-all-users")]
         public async Task<IActionResult> GetAllUsersAsync()
         {
-            var response = await _userService.GetAllAsync();
+            var response = await _userService.GetAllUsersAsync();
+            return SendResponse(response);
+        }
+
+        [HttpGet]
+        [Route("get-all-roles")]
+        public async Task<IActionResult> GetAllRolessAsync()
+        {
+            var response = _userService.GetAllUserRoles();
             return SendResponse(response);
         }
 

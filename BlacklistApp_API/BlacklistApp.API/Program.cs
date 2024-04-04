@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Authentication;
 using AuthenticationService = BlacklistApp.Services.Services.AuthenticationService;
 using IAuthenticationService = BlacklistApp.Services.Interfaces.IAuthenticationService;
 using Serilog.Core;
-using ILogger = Serilog.ILogger;
 
 var builder = WebApplication.CreateBuilder(args);
 Log.Logger = new LoggerConfiguration()
@@ -47,6 +46,19 @@ builder.Services.AddMvc().ConfigureApiBehaviorOptions(options =>
     }
 );
 
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+//{
+//    options.RequireHttpsMetadata = false;
+//    options.SaveToken = true;
+//    options.TokenValidationParameters = new TokenValidationParameters()
+//    {
+//        ValidateIssuer = true,
+//        ValidateAudience = true,
+//        ValidAudience = builder.Configuration["AppSettings:JwtAudience"],
+//        ValidIssuer = builder.Configuration["AppSettings:JwtIssuer"],
+//        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["AppSettings:JwtKey"]))
+//    };
+//});
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -57,7 +69,7 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<JwtMiddleware>();
 app.UseMiddleware(typeof(GlobalErrorHandlingMiddleware));
 app.UseHttpsRedirection();
-
+//app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
