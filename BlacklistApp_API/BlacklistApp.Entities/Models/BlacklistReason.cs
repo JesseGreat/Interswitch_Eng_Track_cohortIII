@@ -14,9 +14,9 @@ namespace BlacklistApp.Entities.Models
         [Key]
         public int Id { get; set; }
 
-        public string Description { get; set; }
-        public bool IsActive { get; set; }
-        public bool IsBlacklist { get; set; }
+        public string Reason { get; set; }
+        public bool IsActive { get; set; }  //the reason for the most recent action will be active
+        public bool IsBlacklist { get; set; } //action type, blacklist or unblacklist
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime DateCreated { get; set; }

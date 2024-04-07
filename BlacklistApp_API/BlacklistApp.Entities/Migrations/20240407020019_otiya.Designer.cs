@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlacklistApp.Entities.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240402224718_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240407020019_otiya")]
+    partial class otiya
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,10 +33,6 @@ namespace BlacklistApp.Entities.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
@@ -45,6 +41,10 @@ namespace BlacklistApp.Entities.Migrations
 
                     b.Property<int>("ItemId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -59,9 +59,6 @@ namespace BlacklistApp.Entities.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("BlacklistedBy")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -73,25 +70,20 @@ namespace BlacklistApp.Entities.Migrations
                     b.Property<bool>("IsBlacklisted")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ItemCategoryId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ItemCategoryId");
-
-                    b.ToTable("items");
+                    b.ToTable("Items");
                 });
 
-            modelBuilder.Entity("BlacklistApp.Entities.Models.ItemCategory", b =>
+            modelBuilder.Entity("BlacklistApp.Entities.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -101,27 +93,7 @@ namespace BlacklistApp.Entities.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ItemCategory");
-                });
-
-            modelBuilder.Entity("BlacklistApp.Entities.Models.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("DateCreated")
-                        .ValueGeneratedOnAdd()
+                    b.Property<DateTime?>("DateLastModified")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("EmailAdress")
@@ -129,14 +101,15 @@ namespace BlacklistApp.Entities.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("FullName")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsEnabled")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Password")
-                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("UserRoleId")
@@ -175,17 +148,6 @@ namespace BlacklistApp.Entities.Migrations
                     b.Navigation("Items");
                 });
 
-            modelBuilder.Entity("BlacklistApp.Entities.Models.Item", b =>
-                {
-                    b.HasOne("BlacklistApp.Entities.Models.ItemCategory", "ItemCategory")
-                        .WithMany("Items")
-                        .HasForeignKey("ItemCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ItemCategory");
-                });
-
             modelBuilder.Entity("BlacklistApp.Entities.Models.User", b =>
                 {
                     b.HasOne("BlacklistApp.Entities.Models.UserRole", "UserRole")
@@ -200,11 +162,6 @@ namespace BlacklistApp.Entities.Migrations
             modelBuilder.Entity("BlacklistApp.Entities.Models.Item", b =>
                 {
                     b.Navigation("BlacklistReasons");
-                });
-
-            modelBuilder.Entity("BlacklistApp.Entities.Models.ItemCategory", b =>
-                {
-                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("BlacklistApp.Entities.Models.UserRole", b =>

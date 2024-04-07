@@ -32,10 +32,29 @@ namespace BlacklistApp.Services.Services
         public async Task<Result<AuthenticateResponse>> AuthenticateAsync(AuthenticateRequest model)
         {
             var hashedPassword = Encryption.ComputeHash(model.Password, string.Empty, null);
-            var user = await _repositoryContext.Users.SingleOrDefaultAsync(x => x.EmailAdress == model.Email.Trim() && x.IsEnabled == true);// && x.Password == hashedPassword);
+
+            var user = await (from users in _repositoryContext.Users
+                                     join creators in _repositoryContext.Users
+                                     on users.CreatedBy.ToLower() equals creators.Id.ToString().ToLower()
+                                     select new User
+                                     {
+                                         Id = users.Id,
+                                         FullName = users.FullName,
+                                         CreatedBy = creators.FullName,
+                                         UserRoleId = users.UserRoleId,
+                                         DateCreated = users.DateCreated,
+                                         IsEnabled = users.IsEnabled,
+                                         DateLastModified = users.DateLastModified,
+                                         UpdatedBy = users.UpdatedBy,
+                                         EmailAdress = users.EmailAdress,
+                                         Password = users.Password
+                                     }).SingleOrDefaultAsync(x => x.IsEnabled == true && x.EmailAdress.ToLower() == model.Email.ToLower().Trim());
+
             if (user == null) return new Result<AuthenticateResponse>(false, "Authentication failed: User not found.", new AuthenticateResponse(), 404);
+
             var status = Encryption.VerifyHash(model.Password.Trim(), string.Empty, user.Password);
             if (!status) return new Result<AuthenticateResponse>(false, "Authentication failed: Password is incorrect.", new AuthenticateResponse(), 404);
+
             var token = GenerateToken(user);
             UserDetails userDetails = DataMapper.GetUser(user);
             return new Result<AuthenticateResponse>(true, "Authentication sucessful.", new AuthenticateResponse { Token = token, UserDetails = userDetails }, 200);

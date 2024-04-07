@@ -22,7 +22,7 @@ namespace BlacklistApp.Services.Helpers
         public Authorization(params int[] _roles)
         {
 
-            //this._roles = _roles ?? new int[] { 3 };
+            this._roles = _roles ?? new int[] { 3 };
         }
         public async void OnAuthorization(AuthorizationFilterContext context)
         {
@@ -48,7 +48,7 @@ namespace BlacklistApp.Services.Helpers
                 return;
             }
             if (user != null)
-                if (user.IsEnabled)
+                if (user.IsEnabled && _roles.Contains(user.UserRoleId))
                 {
                     isRealUser = true;
                 }
