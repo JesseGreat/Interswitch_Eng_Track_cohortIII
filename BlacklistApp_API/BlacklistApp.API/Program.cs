@@ -51,6 +51,12 @@ builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSet
 builder.Services.AddScoped<RepositoryContext>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IItemService, ItemService>();
+
+builder.Services.AddCors(policyBuilder =>
+    policyBuilder.AddDefaultPolicy(policy =>
+        policy.WithOrigins("*").AllowAnyHeader().AllowAnyMethod())
+);
 builder.Services.AddMvc().ConfigureApiBehaviorOptions(options =>
     options.InvalidModelStateResponseFactory = c =>
     {
@@ -83,6 +89,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseMiddleware<JwtMiddleware>();
 app.UseMiddleware(typeof(GlobalErrorHandlingMiddleware));
+app.UseCors();
 app.UseHttpsRedirection();
 //app.UseAuthentication();
 app.UseAuthorization();

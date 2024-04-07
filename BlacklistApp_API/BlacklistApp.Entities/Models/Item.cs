@@ -19,13 +19,8 @@ namespace BlacklistApp.Entities.Models
         public bool IsBlacklisted { get; set; }
         [ForeignKey(nameof(CreatedBy))]
         public string CreatedBy { get; set; }
-        public string? BlacklistedBy { get; set; }
-
-
-        public int ItemCategoryId { get; set; }
-        public ItemCategory ItemCategory { get; set; }
-
-        public List<BlacklistReason> BlacklistReasons { get; set;}
+        //public User CreatedBy { get; set; }
+        public List<BlacklistReason> BlacklistReasons { get; set; }
 
     }
 }

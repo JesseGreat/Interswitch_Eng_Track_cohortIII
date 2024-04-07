@@ -26,5 +26,6 @@ namespace BlacklistApp.Entities.Models
         public bool IsEnabled { get; set; } = false;
         public int UserRoleId { get; set; }
         public UserRole UserRole { get; set; }
+
     }
 }

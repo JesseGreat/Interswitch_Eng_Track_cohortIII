@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BlacklistApp.API.Controllers
 {
-    [Authorization]
+    [Authorization(1, 4)]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : BaseController
