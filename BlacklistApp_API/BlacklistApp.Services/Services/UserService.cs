@@ -18,25 +18,32 @@ namespace BlacklistApp.Services.Services
     public class UserService : IUserService
     {
         private readonly RepositoryContext _repositoryContext;
-        private readonly AppSettings _appSettings;
-        private readonly ILogger<AuthenticationService> _logger;
+        private readonly ILogger<UserService> _logger;
 
-        public UserService(IOptions<AppSettings> appSettings, RepositoryContext repositoryContext, ILogger<AuthenticationService> logger)
+        public UserService(RepositoryContext repositoryContext, ILogger<UserService> logger)
         {
-            _appSettings = appSettings.Value;
             _logger = logger;
             _repositoryContext = repositoryContext;
         }
 
         public async Task<Result<List<UserDetails>>> GetAllUsersAsync()
+
         {
-            var users = await _repositoryContext.Users.Where(x => x.IsEnabled == true).ToListAsync();
-            var response = new List<UserDetails>();
-            foreach (var user in users)
-            {
-                response.Add(DataMapper.GetUser(user));
-            }
-            return new Result<List<UserDetails>>(true, "sucessful", response, StatusCodes.Status200OK);
+            var users = await (from user in _repositoryContext.Users.Where(x => x.IsEnabled)
+                               join creators in _repositoryContext.Users
+                                     on user.CreatedBy.ToUpper() equals creators.Id.ToString().ToUpper()
+                               select new UserDetails
+                               {
+                                   Id = user.Id.ToString(),
+                                   CreatedBy = creators.FullName,
+                                   EmailAdress = user.EmailAdress,
+                                   DateCreated = user.DateCreated,
+                                   FullName = user.FullName ?? string.Empty,
+                                   UserRole = ((Models.UserRole)user.UserRoleId).ToString(),
+                                   RoleId = user.UserRoleId
+                               }).ToListAsync();
+
+            return new Result<List<UserDetails>>(true, "sucessful", users, StatusCodes.Status200OK);
 
         }
 
@@ -54,10 +61,26 @@ namespace BlacklistApp.Services.Services
 
         public async Task<Result<UserDetails>> GetUserDetailsByIdAsync(string id)
         {
-            var userDetails = await GetUserByIdAsync(id.Trim());
-            if (userDetails == null || userDetails.IsEnabled == false)
+            var valid = Guid.TryParse(id.Trim(), out Guid guid);
+            if (!valid)
+                return null;
+            var userDetails = await (from user in _repositoryContext.Users.Where(x => x.IsEnabled == true && x.Id == guid)
+                                     join creators in _repositoryContext.Users
+                                     on user.CreatedBy.ToUpper() equals creators.Id.ToString().ToUpper()
+                                     select new UserDetails
+                                     {
+                                         Id = user.Id.ToString(),
+                                         CreatedBy = creators.FullName,
+                                         EmailAdress = user.EmailAdress,
+                                         DateCreated = user.DateCreated,
+                                         FullName = user.FullName ?? string.Empty,
+                                         UserRole = ((Models.UserRole)user.UserRoleId).ToString(),
+                                         RoleId = user.UserRoleId
+                                     }).SingleOrDefaultAsync();
+
+            if (userDetails == null)
                 return new Result<UserDetails>(false, "User not found", new UserDetails(), StatusCodes.Status404NotFound);
-            return new Result<UserDetails>(true, "sucessful", DataMapper.GetUser(userDetails), StatusCodes.Status200OK);
+            return new Result<UserDetails>(true, "sucessful", userDetails, StatusCodes.Status200OK);
 
         }
 
@@ -71,13 +94,7 @@ namespace BlacklistApp.Services.Services
         }
         public async Task<Result> CreateNewUserAsync(CreateUserRequest user)
         {
-            var allowedRoles = new List<int> { 1, 4 };
-            var creator = await GetUserByIdAsync(user.CreatedBy.Trim());
             var newUser = await _repositoryContext.Users.FirstOrDefaultAsync(x => x.EmailAdress.ToLower() == user.EmailAddress.Trim().ToLower());
-            if (creator == null)
-                return new Result(false, "This creating user does not exist", StatusCodes.Status401Unauthorized);
-            if (!allowedRoles.Contains(creator.UserRoleId))
-                return new Result(false, "The user does not have permission to perform this action.", StatusCodes.Status401Unauthorized);
             if (newUser != null)
                 return new Result(false, $"User with email address {newUser.EmailAdress} already exists.", StatusCodes.Status400BadRequest);
 
@@ -123,11 +140,6 @@ namespace BlacklistApp.Services.Services
         }
         public async Task<Result> DeleteUserAsync(UpdateUserRequest user)
         {
-            var creator = await GetUserByIdAsync(user.UpdatedBy.Trim());
-            if (creator == null)
-                return new Result(false, "This user does not exist", StatusCodes.Status401Unauthorized);
-            if (creator.UserRoleId != 1)
-                return new Result(false, "The user does not have permission to perform this action.", StatusCodes.Status401Unauthorized);
 
             var userDetails = await GetUserByIdAsync(user.Id.Trim());
             if (userDetails == null)

@@ -1,13 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "0Cku2q5Ka9fEPqyVV0Q/zaynJlwXOyN/rMuScpSGd31+59SCsZw/3bfCJco03YDluXBU4A4dvtI4QthTIY6HLA==",
+  "dgSpecHash": "/ZGMKddIxWUW6/+ya3ZxULXcb6nZGtKnFHy1oqbkqLgz4DQEyBFUzvCa7R3y+bw3QQ5NGLUz74SRa6QiDW1qDw==",
   "success": true,
   "projectFilePath": "C:\\Users\\DELL\\source\\repos\\Interswitch_Eng_Track_cohortIII\\BlacklistApp_API\\BlacklistApp.Entities\\BlacklistApp.Entities.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\DELL\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.28\\microsoft.entityframeworkcore.6.0.28.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.28\\microsoft.entityframeworkcore.abstractions.6.0.28.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\6.0.28\\microsoft.entityframeworkcore.analyzers.6.0.28.nupkg.sha512",
+    "C:\\Users\\DELL\\.nuget\\packages\\microsoft.entityframeworkcore.design\\6.0.28\\microsoft.entityframeworkcore.design.6.0.28.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\6.0.28\\microsoft.entityframeworkcore.relational.6.0.28.nupkg.sha512",
+    "C:\\Users\\DELL\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\6.0.28\\microsoft.entityframeworkcore.tools.6.0.28.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\6.0.0\\microsoft.extensions.caching.abstractions.6.0.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\microsoft.extensions.caching.memory\\6.0.1\\microsoft.extensions.caching.memory.6.0.1.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\6.0.0\\microsoft.extensions.configuration.abstractions.6.0.0.nupkg.sha512",
