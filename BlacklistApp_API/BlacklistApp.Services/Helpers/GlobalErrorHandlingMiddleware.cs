@@ -44,6 +44,7 @@ namespace BlacklistApp.Services.Helpers
         //        });
         //    });
         //}
+
         public async Task Invoke(HttpContext context)
         {
             try
@@ -58,6 +59,7 @@ namespace BlacklistApp.Services.Helpers
         public static Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             HttpStatusCode status;
+            string resultMessage = $"An error has occured.";
             var stackTrace = String.Empty;
             string message;
             var exceptionType = exception.GetType();
@@ -73,14 +75,22 @@ namespace BlacklistApp.Services.Helpers
                 status = HttpStatusCode.Unauthorized;
                 stackTrace = exception.StackTrace;
             }
-            else if (exception is SecurityTokenException) // Example, you may have different JWT-related exceptions
+            //else if (exception is SecurityTokenException) // Example, you may have different JWT-related exceptions
+            //{
+            //    message = exception.Message;
+            //    status = HttpStatusCode.Forbidden;
+            //    stackTrace = exception.StackTrace;
+            //}
+            else if (exception is SecurityTokenExpiredException || exception is SecurityTokenException) // Example, you may have different JWT-related exceptions
             {
+                resultMessage = "The provided token is expired.";
                 message = exception.Message;
-                status = HttpStatusCode.Forbidden;
+                status = HttpStatusCode.Unauthorized;
                 stackTrace = exception.StackTrace;
             }
-            else if (exception is SecurityTokenExpiredException) // Example, you may have different JWT-related exceptions
+            else if (exception is SecurityTokenMalformedException) // Example, you may have different JWT-related exceptions
             {
+                resultMessage = "A wrong token was provided.";
                 message = exception.Message;
                 status = HttpStatusCode.Unauthorized;
                 stackTrace = exception.StackTrace;
@@ -130,7 +140,7 @@ namespace BlacklistApp.Services.Helpers
 
             var exceptionResult = JsonSerializer.Serialize(new
 
-            Result<object>(false, $"An error has occured.", new { ErrorMessage = message, StackTrace = stackTrace  }, (int)status));
+            Result<object>(false, resultMessage, new { ErrorMessage = message, StackTrace = stackTrace  }, (int)status));
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)status;

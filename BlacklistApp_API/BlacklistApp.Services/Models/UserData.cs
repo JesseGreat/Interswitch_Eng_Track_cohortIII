@@ -16,8 +16,6 @@ namespace BlacklistApp.Services.Models
         [EmailAddress]
         public string EmailAddress { get; set; }
         [Required]
-        public string CreatedBy { get; set; }
-        [Required]
         public int UserRole { get; set; }
     }
 
@@ -37,7 +35,6 @@ namespace BlacklistApp.Services.Models
         [Required]
         public string FullName { get; set; }
         public string Password { get; set; }
-        public string UpdatedBy { get; set; }
         public bool IsChangePassword { get; set; } = false;
 
     }

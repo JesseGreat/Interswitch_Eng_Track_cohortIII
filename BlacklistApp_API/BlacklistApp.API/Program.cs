@@ -46,13 +46,14 @@ builder.Services.AddSwaggerGen(options =>
     });
     options.OperationFilter<AuthorizeCheckOperationFilter>();
 });
-builder.Services.AddDbContext<RepositoryContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("dbconnection")));
+builder.Services.AddDbContext<RepositoryContext>(options =>
+            options.UseSqlite(builder.Configuration.GetConnectionString("dbconnection")));
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
-builder.Services.AddScoped<RepositoryContext>();
+//builder.Services.AddScoped<RepositoryContext>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IItemService, ItemService>();
-
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddCors(policyBuilder =>
     policyBuilder.AddDefaultPolicy(policy =>
         policy.WithOrigins("*").AllowAnyHeader().AllowAnyMethod())
@@ -82,13 +83,17 @@ builder.Services.AddMvc().ConfigureApiBehaviorOptions(options =>
 //});
 var app = builder.Build();
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+//if (app.Environment.IsDevelopment())
+//{
+app.UseSwagger();
+app.UseSwaggerUI(options =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-app.UseMiddleware<JwtMiddleware>();
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    options.RoutePrefix = string.Empty;
+});
+//}
 app.UseMiddleware(typeof(GlobalErrorHandlingMiddleware));
+app.UseMiddleware<JwtMiddleware>();
 app.UseCors();
 app.UseHttpsRedirection();
 //app.UseAuthentication();

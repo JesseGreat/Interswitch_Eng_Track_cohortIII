@@ -22,7 +22,7 @@ namespace BlacklistApp.API.Controllers
 
         [HttpPost]
         [Route("authenticate-user")]
-        public async Task<IActionResult> CreateNewUserAsync(AuthenticateRequest authenticateRequest)
+        public async Task<IActionResult> AuthenticateUserAsync(AuthenticateRequest authenticateRequest)
         {
             var response = await _authenticationService.AuthenticateAsync(authenticateRequest);
             return SendResponse(response);

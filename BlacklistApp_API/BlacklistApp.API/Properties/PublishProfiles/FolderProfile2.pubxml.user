@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>C:\Users\DELL\OneDrive\Documents\PublishedApps\BlacklistAppAPI</_PublishTargetUrl>
+    <History>True|2024-04-09T18:58:19.6093028Z;False|2024-04-09T19:56:33.2097791+01:00;True|2024-04-09T19:53:44.4732220+01:00;True|2024-04-09T19:51:10.4030706+01:00;True|2024-04-09T19:40:50.2534336+01:00;True|2024-04-09T19:09:06.8402133+01:00;False|2024-04-09T19:06:37.9323414+01:00;True|2024-04-09T18:28:37.7301410+01:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="dbconnection">
+      <Value>Data Source=C:\Users\DELL\OneDrive\Documents\PublishedApps\BlacklistAppAPI\Database\BlacklistApp.db</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

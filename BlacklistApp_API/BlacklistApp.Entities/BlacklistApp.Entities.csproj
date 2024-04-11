@@ -10,6 +10,8 @@
     <Compile Remove="Models\ItemCategory.cs" />
   </ItemGroup>
 
+
+
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.28" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.28" />
@@ -21,13 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Database\BlacklistApp.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
+    <EmbeddedResource Include="Database\BlacklistApp.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

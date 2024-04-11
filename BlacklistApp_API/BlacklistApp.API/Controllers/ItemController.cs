@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BlacklistApp.API.Controllers
 {
-    [Authorization(2, 4)]
+    [Authorization(UserRole.BlacklistAdmin, UserRole.SuperUser)]
     [Route("api/[controller]")]
     [ApiController]
     public class ItemController : BaseController
@@ -17,6 +17,7 @@ namespace BlacklistApp.API.Controllers
             _itemService = itemService;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("check-if-items-are-blacklisted")]
         public async Task<IActionResult> CreateNewUserAsync(List<int> itemIds)
@@ -95,7 +96,6 @@ namespace BlacklistApp.API.Controllers
             return SendResponse(response);
         }
 
-        [AllowAnonymous]
         [HttpGet]
         [Route("get-all-items")]
         public async Task<IActionResult> GetAllItemsAsync()

@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "7iJI74iDcZsl41R4LwKHyU/FilYupSGNyTt3R7RjR3E=",
+  "Source": "BlacklistApp.API",
+  "BasePath": "_content/BlacklistApp.API",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

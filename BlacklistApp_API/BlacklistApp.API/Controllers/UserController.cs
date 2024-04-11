@@ -2,20 +2,19 @@
 using BlacklistApp.Services.Interfaces;
 using BlacklistApp.Services.Models;
 using BlacklistApp.Services.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlacklistApp.API.Controllers
 {
-    [Authorization(1, 4)]
+    [Authorization(UserRole.UserAdmin, UserRole.SuperUser)]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : BaseController
     {
-        private readonly ILogger<UserController> _logger;
         private readonly IUserService _userService;
-        public UserController(ILogger<UserController> logger, IUserService userService)
+        public UserController(IUserService userService)
         {
-            _logger = logger;
             _userService = userService;
         }
 
@@ -23,9 +22,13 @@ namespace BlacklistApp.API.Controllers
         [Route("create-new-user")]
         public async Task<IActionResult> CreateNewUserAsync(CreateUserRequest createUserRequest)
         {
+
             var response = await _userService.CreateNewUserAsync(createUserRequest);
             return SendResponse(response);
+
         }
+
+        [AllowAnonymous]
 
         [HttpPost]
         [Route("update-user-details")]
@@ -42,6 +45,8 @@ namespace BlacklistApp.API.Controllers
             var response = await _userService.DeleteUserAsync(userRequest);
             return SendResponse(response);
         }
+
+        [AllowAnonymous]
 
         [HttpPost]
         [Route("validate-user")]
@@ -61,9 +66,9 @@ namespace BlacklistApp.API.Controllers
 
         [HttpGet]
         [Route("get-all-roles")]
-        public async Task<IActionResult> GetAllRolessAsync()
+        public async Task<IActionResult> GetAllRolesAsync()
         {
-            var response = _userService.GetAllUserRoles();
+            var response = await _userService.GetAllUserRolesAsync();
             return SendResponse(response);
         }
 

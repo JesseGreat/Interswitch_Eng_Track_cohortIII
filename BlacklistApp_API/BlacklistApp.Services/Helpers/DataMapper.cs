@@ -10,9 +10,9 @@ namespace BlacklistApp.Services.Helpers
 {
     public class DataMapper
     {
-        public static User GetUser(CreateUserRequest userRequest) => new()
+        public static User GetUser(CreateUserRequest userRequest, string createdBy) => new()
         {
-            CreatedBy = userRequest.CreatedBy,
+            CreatedBy = createdBy,
             UserRoleId = userRequest.UserRole,
             EmailAdress = userRequest.EmailAddress,
             DateCreated = DateTime.Now
@@ -37,10 +37,10 @@ namespace BlacklistApp.Services.Helpers
             IsBlacklisted = willBlackList
         };
 
-        public static BlacklistReason BlacklistItem(BlacklistItemRequest itemRequest) => new()
+        public static BlacklistReason BlacklistItem(BlacklistItemRequest itemRequest, string userId) => new()
         {
             Reason = itemRequest.Reason,
-            CreatedBy = itemRequest.UserId,
+            CreatedBy = userId,
             IsActive = true,
             IsBlacklist = itemRequest.WillBlacklist,
             DateCreated = DateTime.Now,

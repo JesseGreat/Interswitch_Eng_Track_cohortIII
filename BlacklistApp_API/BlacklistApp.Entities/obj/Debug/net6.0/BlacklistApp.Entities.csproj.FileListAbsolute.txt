@@ -1,4 +1,3 @@
-C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Entities\bin\Debug\net6.0\Database\BlacklistApp.db
 C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Entities\bin\Debug\net6.0\BlacklistApp.Entities.deps.json
 C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Entities\bin\Debug\net6.0\BlacklistApp.Entities.dll
 C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Entities\bin\Debug\net6.0\BlacklistApp.Entities.pdb
@@ -13,3 +12,4 @@ C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\Blac
 C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Entities\obj\Debug\net6.0\ref\BlacklistApp.Entities.dll
 C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Entities\bin\Debug\net6.0\BlacklistApp.Entities.runtimeconfig.json
 C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Entities\obj\Debug\net6.0\BlacklistApp.Entities.genruntimeconfig.cache
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Entities\bin\Debug\net6.0\Database\BlacklistApp.db

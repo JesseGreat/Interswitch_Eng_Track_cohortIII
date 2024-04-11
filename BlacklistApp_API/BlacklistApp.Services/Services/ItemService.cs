@@ -18,35 +18,42 @@ namespace BlacklistApp.Services.Services
     public class ItemService : IItemService
     {
         private readonly RepositoryContext _repositoryContext;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<ItemService> _logger;
-        private readonly IUserService _userService;
 
-        public ItemService(RepositoryContext repositoryContext, ILogger<ItemService> logger, IUserService userService)
+        public ItemService(RepositoryContext repositoryContext, ILogger<ItemService> logger, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _repositoryContext = repositoryContext;
-            _userService = userService;
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task<Result> CreateItemAndBlacklistAsync(BlacklistItemRequest blacklistItemRequest)
         {
+            string userId = GetCurrentUserId();
+
             if (blacklistItemRequest is null)
                 return new Result(false, "Invalid request.", StatusCodes.Status400BadRequest);
 
             if (string.IsNullOrWhiteSpace(blacklistItemRequest.ItemName) && blacklistItemRequest.IsNewItem)
                 return new Result(false, "Item name cannot be null.", StatusCodes.Status400BadRequest);
 
-            var itemRequest = DataMapper.CreateItem(blacklistItemRequest.ItemName, blacklistItemRequest.UserId, true);
+            var itemRequest = DataMapper.CreateItem(blacklistItemRequest.ItemName, userId, true);
             _repositoryContext.Items.Add(itemRequest);
-            await _repositoryContext.SaveChangesAsync();
-
+            var response = await SaveChangesAsync();
+            if (!response.Success)
+                return new Result(false, $"{response.Content.Message}: {response.Content.InnerException?.Message}.", 500);
             blacklistItemRequest.ItemID = itemRequest.Id;
-            _repositoryContext.BlacklistReasons.Add(DataMapper.BlacklistItem(blacklistItemRequest));
-            await _repositoryContext.SaveChangesAsync();
+            _repositoryContext.BlacklistReasons.Add(DataMapper.BlacklistItem(blacklistItemRequest, userId));
+            var response1 = await SaveChangesAsync();
+            if (!response1.Success)
+                return new Result(false, $"{response1.Content.Message}: {response1.Content.InnerException?.Message}.", 500);
 
             return new Result(true, "Item blacklisted successfully.", StatusCodes.Status201Created);
         }
         public async Task<Result> BlacklistItemAsync(BlacklistItemRequest blacklistItemRequest)
         {
+            string userId = GetCurrentUserId();
+
             if (blacklistItemRequest is null)
                 return new Result(false, "Invalid request.", StatusCodes.Status400BadRequest);
 
@@ -66,24 +73,30 @@ namespace BlacklistApp.Services.Services
                 item.IsBlacklisted = blacklistItemRequest.WillBlacklist;
                 _repositoryContext.Items.Update(item);
             }
-            _repositoryContext.BlacklistReasons.Add(DataMapper.BlacklistItem(blacklistItemRequest));
-            await _repositoryContext.SaveChangesAsync();
+            _repositoryContext.BlacklistReasons.Add(DataMapper.BlacklistItem(blacklistItemRequest, userId));
+            var response = await SaveChangesAsync();
+            if (!response.Success)
+                return new Result(false, $"{response.Content.Message}: {response.Content.InnerException?.Message}.", 500);
 
             return new Result(true, $"Item {(blacklistItemRequest.WillBlacklist ? "added to" : "removed from")} blacklist successfully.", StatusCodes.Status200OK);
         }
 
         public async Task<Result> CreateItemAsync(CreateItemRequest createItemRequest)
         {
+            string userId = GetCurrentUserId();
+
             if (createItemRequest is null)
                 return new Result(false, "Invalid request.", StatusCodes.Status400BadRequest);
 
             if (string.IsNullOrWhiteSpace(createItemRequest.Name))
                 return new Result(false, "Item name cannot be null.", StatusCodes.Status400BadRequest);
 
-            var itemRequest = DataMapper.CreateItem(createItemRequest.Name, createItemRequest.CreatedBy, false);
+            var itemRequest = DataMapper.CreateItem(createItemRequest.Name, userId, false);
             _repositoryContext.Items.Add(itemRequest);
 
-            await _repositoryContext.SaveChangesAsync();
+            var response = await SaveChangesAsync();
+            if (!response.Success)
+                return new Result(false, $"{response.Content.Message}: {response.Content.InnerException?.Message}.", 500);
 
             return new Result(true, "Item created successfully.", StatusCodes.Status201Created);
         }
@@ -191,7 +204,24 @@ namespace BlacklistApp.Services.Services
             return new Result<List<object>>(true, "Item details retrieved successfully.", item, StatusCodes.Status200OK);
         }
 
-        private async Task<BlacklistReason> GetBlacklistDetailsAsync(int itemId) => await _repositoryContext.BlacklistReasons?.FirstOrDefaultAsync(x => x.Id == itemId && x.IsActive);
+        private string GetCurrentUserId()
+        {
+            return _httpContextAccessor.HttpContext.Items["UserId"]?.ToString();
+        }
+        private async Task<Result<Exception>> SaveChangesAsync()
+        {
+            try
+            {
 
+                await _repositoryContext.SaveChangesAsync();
+                return new Result<Exception>(true, content: null);
+
+            }
+            catch (Exception e)
+            {
+
+                return new Result<Exception>(false, e);
+            }
+        }
     }
 }

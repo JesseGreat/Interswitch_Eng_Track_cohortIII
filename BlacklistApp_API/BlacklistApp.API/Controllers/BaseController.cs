@@ -41,7 +41,7 @@ namespace BlacklistApp.API.Controllers
         protected IActionResult SendResponse<T>(Result<T> data)
         {
             if (data.Success)
-                return Ok(data);
+                return StatusCode(data.Status, data);
             else if (data.Status == 401)
             {
                 return Unauthorized(data);

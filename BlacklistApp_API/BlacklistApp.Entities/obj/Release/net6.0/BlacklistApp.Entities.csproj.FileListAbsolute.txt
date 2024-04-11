@@ -1,0 +1,15 @@
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Entities\bin\Release\net6.0\BlacklistApp.Entities.deps.json
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Entities\bin\Release\net6.0\BlacklistApp.Entities.runtimeconfig.json
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Entities\bin\Release\net6.0\BlacklistApp.Entities.dll
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Entities\bin\Release\net6.0\BlacklistApp.Entities.pdb
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Entities\obj\Release\net6.0\BlacklistApp.Entities.csproj.AssemblyReference.cache
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Entities\obj\Release\net6.0\BlacklistApp.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Entities\obj\Release\net6.0\BlacklistApp.Entities.AssemblyInfoInputs.cache
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Entities\obj\Release\net6.0\BlacklistApp.Entities.AssemblyInfo.cs
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Entities\obj\Release\net6.0\BlacklistApp.Entities.csproj.CoreCompileInputs.cache
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Entities\obj\Release\net6.0\BlacklistApp.Entities.dll
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Entities\obj\Release\net6.0\refint\BlacklistApp.Entities.dll
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Entities\obj\Release\net6.0\BlacklistApp.Entities.pdb
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Entities\obj\Release\net6.0\BlacklistApp.Entities.genruntimeconfig.cache
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Entities\obj\Release\net6.0\ref\BlacklistApp.Entities.dll
+C:\Users\DELL\source\repos\Interswitch_Eng_Track_cohortIII\BlacklistApp_API\BlacklistApp.Entities\bin\Release\net6.0\Database\BlacklistApp.db

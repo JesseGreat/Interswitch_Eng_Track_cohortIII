@@ -13,8 +13,6 @@ namespace BlacklistApp.Services.Models
     {
         [Required]
         public string Name { get; set; }
-        [Required]
-        public string CreatedBy { get; set; } //Guid
 
     }
 
@@ -24,8 +22,6 @@ namespace BlacklistApp.Services.Models
     {
         [Required]
         public string Reason { get; set; }
-        [Required]
-        public string UserId { get; set; } //guid
         public bool WillBlacklist { get; set; }
         [Required]
         public bool IsNewItem { get; set; }

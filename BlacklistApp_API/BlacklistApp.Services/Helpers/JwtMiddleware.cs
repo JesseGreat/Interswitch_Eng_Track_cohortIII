@@ -34,32 +34,32 @@ namespace BlacklistApp.Services.Helpers
 
         private void AttachUserToContext(HttpContext context, IUserService userService, string token)
         {
-            try
+            //try
+            //{
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JwtKey));
+            tokenHandler.ValidateToken(token, new TokenValidationParameters
             {
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JwtKey));
-                tokenHandler.ValidateToken(token, new TokenValidationParameters
-                {
-                    ValidateAudience = true,
-                    ValidateIssuer = true,
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = key,
-                    ClockSkew = TimeSpan.Zero,
-                    ValidIssuer = _appSettings.JwtIssuer,
-                    ValidAudience = _appSettings.JwtAudience
-                }, out SecurityToken validateToken);
+                ValidateAudience = true,
+                ValidateIssuer = true,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = key,
+                ClockSkew = TimeSpan.Zero,
+                ValidIssuer = _appSettings.JwtIssuer,
+                ValidAudience = _appSettings.JwtAudience
+            }, out SecurityToken validateToken);
 
 
-                var jwtToken = (JwtSecurityToken)validateToken;
-                var userId = jwtToken.Claims.FirstOrDefault(_ => _.Type == "Id").Value;
-                context.Items["User"] = userService.GetUserByIdAsync(userId);
+            var jwtToken = (JwtSecurityToken)validateToken;
+            var userId = jwtToken.Claims.FirstOrDefault(_ => _.Type == "Id").Value;
+            context.Items["User"] = userService.GetUserByIdAsync(userId);
 
-            }
-            catch 
-            {
-                throw;
+            //}
+            //catch 
+            //{
+            //    throw;
 
-            }
+            //}
         }
     }
 }

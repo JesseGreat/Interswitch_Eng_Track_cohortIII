@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="blackliskappapi" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\DELL\\source\\repos\\Interswitch_Eng_Track_cohortIII\\BlacklistApp_API\\BlacklistApp\.API\\obj\\Debug\\net6\.0\\PubTmp\\Out\\$" />
+  </parameter>
+</parameters>
