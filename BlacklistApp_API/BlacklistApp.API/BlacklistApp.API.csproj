@@ -14,12 +14,15 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.28" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.28" />
+    <PackageReference Include="serilog.aspnetcore" Version="8.0.1" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.0" />
     <PackageReference Include="SQLite" Version="3.13.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BlacklistApp.Entities\BlacklistApp.Entities.csproj" />
+    <ProjectReference Include="..\BlacklistApp.Services\BlacklistApp.Services.csproj" />
   </ItemGroup>
 
 </Project>
