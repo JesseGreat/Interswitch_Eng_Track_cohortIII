@@ -17,8 +17,8 @@ const Sidebar = ({ role, loggedInUser }) => {
         <div className="flex flex-col space-x-2 items">
           <NavLink to="/" className="disabled">
           </NavLink>
-          <NavLink to="/" className={linkClass}>
-            <FaPerson className=' text-red-500 mx-2' /> Dashboard
+          <NavLink to="/vendors" className={linkClass}>
+            <FaPerson className=' text-red-500 mx-2' /> Vendors
           </NavLink>
           { localStorage.getItem("role") == "1" ? (
             <>
@@ -31,9 +31,15 @@ const Sidebar = ({ role, loggedInUser }) => {
               
             </>
           ) : (
-            <NavLink to="/blacklist" className={linkClass}>
-              <FaPeopleGroup className=' text-red-500 mx-2' /> Blacklist
-            </NavLink>
+            <>
+              <NavLink to="/blacklist" className={linkClass}>
+                <FaPeopleGroup className=' text-red-500 mx-2' /> Blacklist
+              </NavLink>
+              <NavLink to="/blacklist-items" className={linkClass}>
+                <FaPeopleGroup className=' text-red-500 mx-2' /> Blacklist Items
+              </NavLink>
+
+            </>
           )
           }
 

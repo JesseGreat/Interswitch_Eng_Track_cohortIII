@@ -8,6 +8,7 @@ import VendorList from './pages/VendorList'
 import Login from './pages/Login'
 import UsersPage from './pages/UsersPage'
 import CreateUser from './pages/CreateUser'
+import BlackListItems from './pages/BlackListItems'
 
 
   // Login func
@@ -35,6 +36,32 @@ import CreateUser from './pages/CreateUser'
     });
     return res.json();
   }
+  // Validate Ser func
+  const validateUserFunc = async (userEmail) => {
+    const token = localStorage.getItem("auth")
+    const res = await fetch('https://blackliskappapi.azurewebsites.net/api/User/validate-user', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(userEmail)
+    });
+    return res.json();
+  }
+  // UpdateUSer func
+  const updateUserFunc = async (userDetails) => {
+    const token = localStorage.getItem("auth")
+    const res = await fetch('https://blackliskappapi.azurewebsites.net/api/User/update-user-details', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(userDetails)
+    });
+    return res.json();
+  }
 
 
 const App = () => {
@@ -53,19 +80,22 @@ const App = () => {
       //   <Route path='*' element={<NotFound />} />
       // </Route>
       <Route path="/">
+        {/* Login page without MainLayout */}
+        <Route index element={<Login login={loginFunc} setRole={setRole} loggedInUser={setLoggedInUser} />} />
+       
         {/* MainLayout with nested routes */}
         <Route element={<MainLayout role={role} loggedInUser={setLoggedInUser} />}>
-          <Route index element={<VendorList />} />
+          <Route path="/vendors" element={<VendorList />} />
           <Route path="/blacklist" element={<BlackListPage />} />
+          <Route path="/blacklist-items" element={<BlackListItems />} />
           <Route path="/users" element={<UsersPage />} />
-          <Route path="/create-user" element={<CreateUser addUserSubmit={addUserFunc} />} />
+          <Route path="/create-user" element={<CreateUser addUserSubmit={addUserFunc}
+             validateUser={validateUserFunc} updateUser={updateUserFunc} />} />
           <Route path="/vendorprofile" element={<VendorProfile />} />
           <Route path="/vendorlist" element={<VendorList />} />
           <Route path="*" element={<NotFound />} />
         </Route>
 
-        {/* Login page without MainLayout */}
-        <Route path="/login" element={<Login login={loginFunc} setRole={setRole} loggedInUser={setLoggedInUser} />} />
       </Route>
     )
   )

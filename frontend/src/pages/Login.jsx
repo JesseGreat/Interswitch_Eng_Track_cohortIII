@@ -27,16 +27,20 @@ const Login = ({ login, setRole, loggedInUser }) => {
                 const token = res.content.token;
                 const userData = res.content.userDetails;
                 const role = res.content.userDetails.roleId;
+                
                 localStorage.setItem("auth", token)
                 localStorage.setItem("role", `${role}`)
+                localStorage.setItem("fullName", `${userData.fullName}`)
                 loggedInUser = userData
+                
                 setRole(userData.roleId)
                 console.log("user: ", user);
                 console.log("token: ", token)
                 console.log("user details: ", userData);
+                console.log("user fullName: ", userData.fullName);
                 setLoading(() => {!loading});
                 console.log(loading)
-                return navigate('/')
+                return navigate('/vendors')
             }
             else {
                 console.log(res);
